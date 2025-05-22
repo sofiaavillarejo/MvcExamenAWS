@@ -1,11 +1,15 @@
+using Amazon.S3;
 using Microsoft.EntityFrameworkCore;
 using MvcExamenAWS.Data;
 using MvcExamenAWS.Repositories;
+using MvcExamenAWS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("MysqlComics");
 builder.Services.AddTransient<RepositoryComics>();
+builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddTransient<ServiceStorageS3>();
 builder.Services.AddDbContext<ComicsContext>(options => options.UseMySQL(connectionString));
 builder.Services.AddControllersWithViews();
 
